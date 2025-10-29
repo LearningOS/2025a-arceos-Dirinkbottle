@@ -71,6 +71,9 @@ pub mod sync;
 pub mod thread;
 pub mod time;
 
+#[cfg(feature = "alloc")]
+pub mod other_collections;
+
 #[cfg(feature = "fs")]
 pub mod fs;
 #[cfg(feature = "net")]
