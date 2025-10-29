@@ -7,6 +7,12 @@ use alloc::{string::String, vec::Vec};
 struct StdinRaw;
 struct StdoutRaw;
 
+///color ANSI实现
+pub const BlUE:&'static str = "\x1b[34m";
+pub const RED:&'static str = "\x1b[31m";
+pub const RESET:&'static str = "\x1b[0m";
+
+
 impl Read for StdinRaw {
     // Non-blocking read, returns number of bytes read.
     fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
@@ -163,11 +169,17 @@ pub fn stdout() -> Stdout {
 
 #[doc(hidden)]
 pub fn __print_impl(args: core::fmt::Arguments) {
+
+    //默认红色输出,兼容接口
     if cfg!(feature = "smp") {
         // synchronize using the lock in axlog, to avoid interleaving
         // with kernel logs
+      //  arceos_api::stdio::ax_console_write_fmt(format_args!("{}",RED)).unwrap();
         arceos_api::stdio::ax_console_write_fmt(args).unwrap();
+        //arceos_api::stdio::ax_console_write_fmt(format_args!("{}",RESET)).unwrap();
     } else {
+        //stdout().lock().write_fmt(format_args!("{}",RED)).unwrap();
         stdout().lock().write_fmt(args).unwrap();
+       // stdout().lock().write_fmt(format_args!("{}",RESET)).unwrap();
     }
 }
