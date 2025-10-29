@@ -142,8 +142,8 @@ log_level = warn
 
 Create '/tmp/f1' and write [hello] ...
 Rename '/tmp/f1' to '/tmp/f2' ...
-[37m[  0.562069 0 axfs_vfs:160] [33m[AxError::Unsupported][m
-[m[37m[  0.566232 0 axruntime::lang_items:5] [31mpanicked at exercises/ramfs_rename/src/main.rs:51:9:
+[37m[  0.575513 0 axfs_vfs:160] [33m[AxError::Unsupported][m
+[m[37m[  0.579956 0 axruntime::lang_items:5] [31mpanicked at exercises/ramfs_rename/src/main.rs:51:9:
 Error: Operation not supported[m
 [mramfs_rename fault
     [92;1mCreating[0m FAT32 disk image "disk.img" ...
@@ -215,9 +215,9 @@ smp = 1
 build_mode = release
 log_level = warn
 
-[37m[  0.087752 0 axruntime::lang_items:5] [31mpanicked at /home/inkbottle/2025a-arceos-Dirinkbottle/arceos/modules/bump_allocator/src/lib.rs:29:9:
-not yet implemented[m
-[malt_alloc default
+Running bump tests...
+Bump tests run OK!
+alt_alloc pass
     [92;1mCreating[0m FAT32 disk image "disk.img" ...
 mkfs.fat 4.2 (2021-01-31)
     [92;1mBuilding[0m App: support_hashmap, Arch: riscv64, Platform: riscv64-qemu-virt, App type: rust
@@ -417,14 +417,14 @@ smp = 1
 build_mode = release
 log_level = warn
 
-[37m[  0.674039 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.768512 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.881770 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  1.003654 0 fatfs::dir:139] [31mIs a directory[m
+[37m[  0.706458 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.804978 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.920564 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  1.048550 0 fatfs::dir:139] [31mIs a directory[m
 [mHypervisor ...
 app: /sbin/skernel2
 paddr: PA:0x80643000
-[37m[  1.063482 0:2 axruntime::lang_items:5] [31mpanicked at exercises/simple_hv/src/main.rs:105:13:
+[37m[  1.110241 0:2 axruntime::lang_items:5] [31mpanicked at exercises/simple_hv/src/main.rs:105:13:
 Bad instruction: 0xf14025f3 sepc: 0x80200000[m
 [msimple_hv default
-200
+300
