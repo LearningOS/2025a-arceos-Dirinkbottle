@@ -11,6 +11,7 @@ extern crate axlog;
 mod task;
 mod syscall;
 mod loader;
+mod pagefault;
 
 use axstd::io;
 use axhal::paging::MappingFlags;
@@ -36,7 +37,7 @@ fn main() {
     }
 
     // Init user stack.
-    let ustack_top = init_user_stack(&mut uspace, true).unwrap();
+    let ustack_top = init_user_stack(&mut uspace, false).unwrap();//支持lazy映射，在触发pagefult时再分配userstack！
     ax_println!("New user address space: {:#x?}", uspace);
 
     // Let's kick off the user process.
