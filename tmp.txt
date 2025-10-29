@@ -142,8 +142,8 @@ log_level = warn
 
 Create '/tmp/f1' and write [hello] ...
 Rename '/tmp/f1' to '/tmp/f2' ...
-[37m[  0.575513 0 axfs_vfs:160] [33m[AxError::Unsupported][m
-[m[37m[  0.579956 0 axruntime::lang_items:5] [31mpanicked at exercises/ramfs_rename/src/main.rs:51:9:
+[37m[  0.563881 0 axfs_vfs:160] [33m[AxError::Unsupported][m
+[m[37m[  0.568316 0 axruntime::lang_items:5] [31mpanicked at exercises/ramfs_rename/src/main.rs:51:9:
 Error: Operation not supported[m
 [mramfs_rename fault
     [92;1mCreating[0m FAT32 disk image "disk.img" ...
@@ -417,14 +417,14 @@ smp = 1
 build_mode = release
 log_level = warn
 
-[37m[  0.706458 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.804978 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.920564 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  1.048550 0 fatfs::dir:139] [31mIs a directory[m
+[37m[  0.756033 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.844616 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.953400 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  1.074754 0 fatfs::dir:139] [31mIs a directory[m
 [mHypervisor ...
 app: /sbin/skernel2
 paddr: PA:0x80643000
-[37m[  1.110241 0:2 axruntime::lang_items:5] [31mpanicked at exercises/simple_hv/src/main.rs:105:13:
-Bad instruction: 0xf14025f3 sepc: 0x80200000[m
+[37m[  1.141481 0:2 axruntime::lang_items:5] [31mpanicked at exercises/simple_hv/src/main.rs:105:13:
+Bad instruction: 0x0 sepc: 0x80200000[m
 [msimple_hv default
 300

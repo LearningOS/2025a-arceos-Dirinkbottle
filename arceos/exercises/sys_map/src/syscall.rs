@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 use core::ffi::{c_void, c_char, c_int};
+use std::thread::current;
 use axhal::arch::TrapFrame;
 use axhal::trap::{register_trap_handler, SYSCALL};
 use axerrno::LinuxError;
@@ -130,17 +131,66 @@ fn handle_syscall(tf: &TrapFrame, syscall_num: usize) -> isize {
     };
     ret
 }
-
+//入手点
 #[allow(unused_variables)]
 fn sys_mmap(
-    addr: *mut usize,
-    length: usize,
-    prot: i32,
-    flags: i32,
-    fd: i32,
-    _offset: isize,
+    addr: *mut usize, //用户建议映射的地址 0是匿名映射
+    length: usize, //映射长度
+    prot: i32, // 页面权限
+    flags: i32, //区域行为标准,映射方式
+    fd: i32, //文件描述符
+    _offset: isize, //文件描述符里面的偏移
 ) -> isize {
-    unimplemented!("no sys_mmap!");
+use memory_addr::{VirtAddr, VirtAddrRange};
+    syscall_body!(sys_mmap,{
+        let map_flags = MmapFlags::from_bits_truncate(flags);//忽略未知位 容错
+        if !map_flags.contains(MmapFlags::MAP_ANONYMOUS){
+            return Err(LinuxError::ENOSYS);//只支持匿名映射
+        }
+        if length == 0 {
+            return Err(LinuxError::EINVAL);
+        }
+        //对齐长度!!!
+        const PAGE_SIZE: usize = 0x1000;//4096 
+        let aligned_length = (length + PAGE_SIZE - 1) & !(PAGE_SIZE - 1);
+        //获取地址空间
+        let curr = current();
+        let mut aspace = curr.task_ext().aspace.lock();
+        let addr_hint = VirtAddr::from(addr as usize);
+        let alloc_addr = if map_flags.contains(MmapFlags::MAP_FIXED) {
+            //必须用指定地址,不接受自动查找
+            if addr as usize == 0 {
+                return Err(LinuxError::EINVAL);
+            }
+            addr_hint
+        } else {
+            // 分支 B：自动分配
+            let va_range = VirtAddrRange::from_start_size(
+                aspace.base(),
+                aspace.size()
+            );
+            aspace.find_free_area(//在指定范围随机查找空闲区域用来满足mmap
+                if addr as usize != 0 { addr_hint/*从这里开始向后搜索 */ } else { aspace.base() },
+                aligned_length,
+                va_range
+            ).ok_or(LinuxError::ENOMEM)?
+        };
+        //转换权限
+        let prot_flags = MmapProt::from_bits_truncate(prot);
+        let mapping_flags = MappingFlags::from(prot_flags);
+        //创建映射
+        aspace.map_alloc(
+            alloc_addr,//起始地址
+            aligned_length,//长度
+            mapping_flags,//权限
+            false//backend pagefult alloc
+        ).map_err(|e| {
+            LinuxError::ENOMEM
+        })?;
+    }
+    );
+
+    
 }
 
 fn sys_openat(dfd: c_int, fname: *const c_char, flags: c_int, mode: api::ctypes::mode_t) -> isize {
