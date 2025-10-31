@@ -133,13 +133,36 @@ impl VfsNodeOps for RootDirectory {
     }
 
     fn rename(&self, src_path: &str, dst_path: &str) -> VfsResult {
-        self.lookup_mounted_fs(src_path, |fs, rest_path| {
-            if rest_path.is_empty() {
-                ax_err!(PermissionDenied) // cannot rename mount points
-            } else {
-                fs.root_dir().rename(rest_path, dst_path)
+        log::debug!("[RootDirectory::rename]src:'{}',dst:'{}'", src_path, dst_path);
+        
+        // 需要同时处理源路径和目标路径，提取相对路径
+        let result = self.lookup_mounted_fs(src_path, |src_fs, src_rest| {
+            if src_rest.is_empty() {//没有相对路径，不能重命名
+                log::debug!("[RootDirectory::rename] cannot rename mount point");
+                return ax_err!(PermissionDenied);
             }
-        })
+            
+            // 同样对目标路径进行处理,检查是否在同一文件系统
+            self.lookup_mounted_fs(dst_path, |dst_fs, dst_rest| {
+                log::debug!("[RootDirectory::rename] src_rest: '{}', dst_rest: '{}'", src_rest, dst_rest);
+                
+                // 检查是否在同一文件系统
+                if !Arc::ptr_eq(&src_fs, &dst_fs) {//指针不相等，说明不在同一文件系统
+                    log::error!("[RootDirectory::rename] source and dest not in the same filesystem!");
+                    return ax_err!(InvalidInput);
+                }
+                
+                if dst_rest.is_empty() {//没有相对路径，不能重命名
+                    log::debug!("[RootDirectory::rename] cannot rename to mount point");
+                    return ax_err!(PermissionDenied);
+                }
+                
+                log::debug!("[RootDirectory::rename] call rename('{}', '{}')", src_rest, dst_rest);
+                src_fs.root_dir().rename(src_rest, dst_rest)
+            })
+        })?;
+        
+        Ok(())
     }
 }
 

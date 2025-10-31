@@ -142,10 +142,10 @@ log_level = warn
 
 Create '/tmp/f1' and write [hello] ...
 Rename '/tmp/f1' to '/tmp/f2' ...
-[37m[  0.580717 0 axfs_vfs:160] [33m[AxError::Unsupported][m
-[m[37m[  0.585795 0 axruntime::lang_items:5] [31mpanicked at exercises/ramfs_rename/src/main.rs:51:9:
-Error: Operation not supported[m
-[mramfs_rename fault
+Read '/tmp/f2' content: [hello] ok!
+
+[Ramfs-Rename]: ok!
+ramfs_rename pass
     [92;1mCreating[0m FAT32 disk image "disk.img" ...
 mkfs.fat 4.2 (2021-01-31)
     [92;1mBuilding[0m App: alt_alloc, Arch: riscv64, Platform: riscv64-qemu-virt, App type: rust
@@ -296,6 +296,7 @@ mkfs.fat 4.2 (2021-01-31)
 make[1]: Entering directory '/home/inkbottle/2025a-arceos-Dirinkbottle/arceos/payload'
 make -C origin
 make[2]: Entering directory '/home/inkbottle/2025a-arceos-Dirinkbottle/arceos/payload/origin'
+make[2]: Nothing to be done for 'all'.
 make[2]: Leaving directory '/home/inkbottle/2025a-arceos-Dirinkbottle/arceos/payload/origin'
 make -C hello_c
 make[2]: Entering directory '/home/inkbottle/2025a-arceos-Dirinkbottle/arceos/payload/hello_c'
@@ -385,10 +386,10 @@ smp = 1
 build_mode = release
 log_level = warn
 
-[37m[  0.761839 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.861081 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.971403 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  1.095726 0 fatfs::dir:139] [31mIs a directory[m
+[37m[  0.689007 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.788484 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.904346 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  1.030127 0 fatfs::dir:139] [31mIs a directory[m
 [mphdr: offset: 0x0=>0x0 size: 0x5FAC=>0x5FAC
 VA:0x0 - VA:0x6000
 phdr: offset: 0x6E70=>0x7E70 size: 0x340=>0x9B0
@@ -397,7 +398,7 @@ entry: 0x526
 Mapping user stack: VA:0x3fffff0000 -> VA:0x4000000000
 New user address space: AddrSpace {
     va_range: VA:0x0..VA:0x4000000000,
-    page_table_root: PA:0x8064d000,
+    page_table_root: PA:0x8064e000,
 }
 handle_syscall [96] ...
 handle_syscall [29] ...
@@ -513,14 +514,13 @@ smp = 1
 build_mode = release
 log_level = warn
 
-[37m[  0.713476 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.813326 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.928173 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  1.052115 0 fatfs::dir:139] [31mIs a directory[m
+[37m[  0.703716 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.799907 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.913162 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  1.033350 0 fatfs::dir:139] [31mIs a directory[m
 [mHypervisor ...
 app: /sbin/skernel2
-paddr: PA:0x80643000
-[37m[  1.113048 0:2 axruntime::lang_items:5] [31mpanicked at exercises/simple_hv/src/main.rs:105:13:
-Bad instruction: 0xf14025f3 sepc: 0x80200000[m
-[msimple_hv default
-400
+paddr: PA:0x80644000
+QEMU: Terminated
+simple_hv default
+500

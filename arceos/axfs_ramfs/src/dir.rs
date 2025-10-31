@@ -70,6 +70,8 @@ impl DirNode {
 }
 
 impl VfsNodeOps for DirNode {
+    axfs_vfs::impl_vfs_dir_default! {}
+
     fn get_attr(&self) -> VfsResult<VfsNodeAttr> {
         Ok(VfsNodeAttr::new_dir(4096, 0))
     }
@@ -164,8 +166,47 @@ impl VfsNodeOps for DirNode {
             self.remove_node(name)
         }
     }
-
-    axfs_vfs::impl_vfs_dir_default! {}
+    fn rename(&self, src_path: &str, dst_path: &str) -> VfsResult {
+        log::debug!("[ramfs::rename] src='{}', dst='{}'", src_path, dst_path);
+        
+        //去掉前导 '/'
+        let (src_name, src_rest) = split_path(src_path);
+        let (dst_name, dst_rest) = split_path(dst_path);
+        
+        log::debug!("[ramfs::rename]args src=('{}', {:?}), dst=('{}', {:?})", 
+                    src_name, src_rest, dst_name, dst_rest);
+        
+        // 如果有路径组件，说明是复杂路径，不支持
+        if src_rest.is_some() || dst_rest.is_some() {
+            log::error!("[ramfs::rename] Complex path not supported in simple rename");
+            return Err(VfsError::Unsupported);
+        }
+        
+    
+        //获取锁children
+        let mut children = self.children.write();
+        
+        //检查源文件是否存在
+        let node = children.get(src_name).ok_or_else(|| {
+            log::error!("[ramfs::rename]file '{}' not found", src_name);
+            VfsError::NotFound
+        })?.clone();
+        
+        
+        
+        //posix标志，存在就删除
+        if children.contains_key(dst_name) {
+            log::debug!("[ramfs::rename] file exists,will delete");
+            children.remove(dst_name);
+        }
+        
+        //更新child
+        children.remove(src_name);
+        children.insert(dst_name.into(), node);
+        
+       
+        Ok(())
+    }
 }
 
 fn split_path(path: &str) -> (&str, Option<&str>) {
