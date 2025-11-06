@@ -386,10 +386,10 @@ smp = 1
 build_mode = release
 log_level = warn
 
-[37m[  0.703275 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.806350 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.924109 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  1.054174 0 fatfs::dir:139] [31mIs a directory[m
+[37m[  0.691829 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.790135 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.908754 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  1.031114 0 fatfs::dir:139] [31mIs a directory[m
 [mphdr: offset: 0x0=>0x0 size: 0x5FAC=>0x5FAC
 VA:0x0 - VA:0x6000
 phdr: offset: 0x6E70=>0x7E70 size: 0x340=>0x9B0
@@ -514,10 +514,10 @@ smp = 1
 build_mode = release
 log_level = warn
 
-[37m[  0.701954 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.798463 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.908050 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  1.037960 0 fatfs::dir:139] [31mIs a directory[m
+[37m[  0.719468 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.817765 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.931985 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  1.059375 0 fatfs::dir:139] [31mIs a directory[m
 [mHypervisor ...
 app: /sbin/skernel2
 paddr: PA:0x80644000
@@ -535,7 +535,7 @@ HGATP configured, ready to run guest
 VmExit Reason: VSuperEcall: Some(Reset(Reset { reset_type: Shutdown, reason: NoReason }))
 a0 = 0x6688, a1 = 0x1234
 Shutdown vm normally!
-[37m[  1.131585 0:2 axruntime::lang_items:5] [31mpanicked at exercises/simple_hv/src/main.rs:63:5:
+[37m[  1.146648 0:2 axruntime::lang_items:5] [31mpanicked at exercises/simple_hv/src/main.rs:63:5:
 Hypervisor ok![m
 [msimple_hv pass
 600
