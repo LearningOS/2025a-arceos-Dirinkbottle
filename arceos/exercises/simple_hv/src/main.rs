@@ -52,8 +52,12 @@ fn main() {
     ax_println!("HGATP configured, ready to run guest");
 
     // Kick off vm and wait for it to exit.
+    let mut exit_count:usize=0;//貌似能解决卡死
     while !run_guest(&mut ctx) {
-        ax_println!("guest exit!")
+        exit_count+=1;
+        if exit_count>10{
+            panic!("why can exit many times?");
+        }
     }
 
     panic!("Hypervisor ok!");
@@ -111,22 +115,22 @@ fn vmexit_handler(ctx: &mut VmCpuRegisters) -> bool {
             }
         },
         Trap::Exception(Exception::IllegalInstruction) => {
-            ax_println!("Bad instruction: {:#x} sepc: {:#x}",
-                stval::read(),
-                ctx.guest_regs.sepc
-            );
+         //   ax_println!("Bad instruction: {:#x} sepc: {:#x}",
+         //       stval::read(),
+         //       ctx.guest_regs.sepc
+         //   );
             //实验要求模拟支持，a1要求0x1234  "csrr a1, mhartid",
             ctx.guest_regs.gprs.set_reg(A1, 0x1234);
             ctx.guest_regs.sepc+=4;//跳过当前指令（模拟已经执行完毕）
         },
         Trap::Exception(Exception::LoadGuestPageFault) => {
-            ax_println!("==> LoadGuestPageFault detected! About to panic...");
-            ax_println!("    stval (fault address): {:#x}", stval::read());
-            ax_println!("    sepc (guest PC): {:#x}", ctx.guest_regs.sepc);
-            ax_println!("LoadGuestPageFault: stval {:#x} sepc: {:#x}",
-                stval::read(),
-                ctx.guest_regs.sepc
-            );
+           // ax_println!("==> LoadGuestPageFault detected! About to panic...");
+          //  ax_println!("    stval (fault address): {:#x}", stval::read());
+           // ax_println!("    sepc (guest PC): {:#x}", ctx.guest_regs.sepc);
+          //  ax_println!("LoadGuestPageFault: stval {:#x} sepc: {:#x}",
+           //     stval::read(),
+          //      ctx.guest_regs.sepc
+         //   );
         //"ld a0, 64(zero)",a1要求0x6688
              ctx.guest_regs.gprs.set_reg(A0, 0x6688);
             ctx.guest_regs.sepc+=4;//跳过当前指令（模拟已经执行完毕）

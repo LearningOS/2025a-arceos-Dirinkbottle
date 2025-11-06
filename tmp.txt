@@ -386,10 +386,10 @@ smp = 1
 build_mode = release
 log_level = warn
 
-[37m[  0.689007 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.788484 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.904346 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  1.030127 0 fatfs::dir:139] [31mIs a directory[m
+[37m[  0.703275 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.806350 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.924109 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  1.054174 0 fatfs::dir:139] [31mIs a directory[m
 [mphdr: offset: 0x0=>0x0 size: 0x5FAC=>0x5FAC
 VA:0x0 - VA:0x6000
 phdr: offset: 0x6E70=>0x7E70 size: 0x340=>0x9B0
@@ -514,13 +514,28 @@ smp = 1
 build_mode = release
 log_level = warn
 
-[37m[  0.703716 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.799907 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  0.913162 0 fatfs::dir:139] [31mIs a directory[m
-[m[37m[  1.033350 0 fatfs::dir:139] [31mIs a directory[m
+[37m[  0.701954 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.798463 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  0.908050 0 fatfs::dir:139] [31mIs a directory[m
+[m[37m[  1.037960 0 fatfs::dir:139] [31mIs a directory[m
 [mHypervisor ...
 app: /sbin/skernel2
 paddr: PA:0x80644000
-QEMU: Terminated
-simple_hv default
-500
+EPT root: PA:0x80643000
+HGATP configured, ready to run guest
+==> About to enter guest, sepc: 0x80200000
+==> Guest exited!
+==> VM Exit! scause: Exception(IllegalInstruction), sepc: 0x80200000, stval: 0xf14025f3
+==> About to enter guest, sepc: 0x80200004
+==> Guest exited!
+==> VM Exit! scause: Exception(LoadGuestPageFault), sepc: 0x80200004, stval: 0x40
+==> About to enter guest, sepc: 0x80200008
+==> Guest exited!
+==> VM Exit! scause: Exception(VirtualSupervisorEnvCall), sepc: 0x8020000a, stval: 0x0
+VmExit Reason: VSuperEcall: Some(Reset(Reset { reset_type: Shutdown, reason: NoReason }))
+a0 = 0x6688, a1 = 0x1234
+Shutdown vm normally!
+[37m[  1.131585 0:2 axruntime::lang_items:5] [31mpanicked at exercises/simple_hv/src/main.rs:63:5:
+Hypervisor ok![m
+[msimple_hv pass
+600
