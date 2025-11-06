@@ -30,16 +30,18 @@ else
     echo "test-support_hashmap failed" >> $file_name
 fi
 
+if ./scripts/test-simple_hv.sh ; then
+    ((score += 100))
+else
+    echo "test-simple_hv failed" >> $file_name
+fi
+
 if ./scripts/test-sys_map.sh ; then
     ((score += 100))
 else
     echo "test-sys_map failed" >> $file_name
 fi
 
-if ./scripts/test-simple_hv.sh ; then
-    ((score += 100))
-else
-    echo "test-simple_hv failed" >> $file_name
-fi
+
 
 echo "$score"
